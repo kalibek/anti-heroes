@@ -8,13 +8,12 @@ import (
 
 type Context struct {
 	Router  *mux.Router
-	Name    string
 	Address string
 }
 
-type Handler func(c *Context, r *http.Request) (error, interface{})
+type Handler func(r *http.Request) (interface{}, error)
 
-type RouterError struct {
+type Error struct {
 	Method string `json:"method"`
 	URL    string `json:"url"`
 	Err    string `json:"error"`

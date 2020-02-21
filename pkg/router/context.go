@@ -13,7 +13,6 @@ func NewContext(address string) *Context {
 	r.Use(loggingMiddleware)
 	return &Context{
 		Router:  r,
-		Name:    "application",
 		Address: address,
 	}
 }
@@ -29,7 +28,7 @@ func (c *Context) Get(path string, h Handler) {
 
 func register(c *Context, path string, h Handler, method string) {
 	c.Router.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		err, response := h(c, r)
+		response, err := h(r)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Errorf("request error %v", err)
@@ -47,8 +46,8 @@ func register(c *Context, path string, h Handler, method string) {
 
 }
 
-func newError(e error, r *http.Request) RouterError {
-	return RouterError{
+func newError(e error, r *http.Request) Error {
+	return Error{
 		Err:    e.Error(),
 		URL:    r.RequestURI,
 		Method: r.Method,

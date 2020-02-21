@@ -18,10 +18,10 @@ func main() {
 	log.Fatal(c.Start())
 }
 
-func hello(c *router.Context, r *http.Request) (error, interface{}) {
-	return nil, fmt.Sprintf("method: %s, app: %s", r.Method, c.Name)
+func hello(r *http.Request) (error, interface{}) {
+	return nil, fmt.Sprintf("method: %s", r.Method)
 }
 
-func err(c *router.Context, r *http.Request) (error, interface{}) {
+func err(r *http.Request) (error, interface{}) {
 	return errors.New("Something bad happened"), nil
 }
