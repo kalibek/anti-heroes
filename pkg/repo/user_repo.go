@@ -4,6 +4,12 @@ import (
 	"github.com/kalibek/anti-heroes/pkg/model"
 )
 
+type UserRepo interface {
+	SaveUser(user model.User) error
+	UpdateUser(user model.User) error
+	GetUser(id int64) (*model.User, error)
+}
+
 func (r *Repo) SaveUser(user model.User) error {
 	_, err := r.Exec("insert into users (email, name) values ($1, $2)", user.Email, user.Name)
 	return err
